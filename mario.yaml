@@ -14,12 +14,10 @@ spec:
     spec:
       containers:
       - name: mario
-        # זהו Image פופולרי ואמין למשחק מריו בדפדפן
         image: pengbai/docker-supermario
-        # הגדרה זו מכריחה את קוברנטיס לנסות למשוך את ה-Image מהאינטרנט אם הוא לא קיים
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080 # המשחק הזה ספציפית רץ בתוך הקונטיינר על פורט 8080
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -30,6 +28,6 @@ spec:
     app: mario
   ports:
     - protocol: TCP
-      port: 80        # הפורט החיצוני של השירות
-      targetPort: 8080 # הפורט הפנימי של האפליקציה (חייב להתאים ל-containerPort)
+      port: 80       
+      targetPort: 8080 
   type: NodePort
