@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mario-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+      - name: mario
+        # זהו Image פופולרי ואמין למשחק מריו בדפדפן
+        image: pengbai/docker-supermario
+        # הגדרה זו מכריחה את קוברנטיס לנסות למשוך את ה-Image מהאינטרנט אם הוא לא קיים
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080 # המשחק הזה ספציפית רץ בתוך הקונטיינר על פורט 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario-service
+spec:
+  selector:
+    app: mario
+  ports:
+    - protocol: TCP
+      port: 80        # הפורט החיצוני של השירות
+      targetPort: 8080 # הפורט הפנימי של האפליקציה (חייב להתאים ל-containerPort)
+  type: NodePort
