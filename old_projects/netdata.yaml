@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netdata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netdata
+  template:
+    metadata:
+      labels:
+        app: netdata
+    spec:
+      containers:
+      - name: netdata
+        image: netdata/netdata
+        ports:
+        - containerPort: 19999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netdata-service
+spec:
+  selector:
+    app: netdata
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 19999
+  type: NodePort
