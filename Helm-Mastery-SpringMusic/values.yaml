@@ -1,0 +1,15 @@
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
+
+deployment:
+  replicas: 2
+  image: yanivomc/spring-music
+  tag: latest
+
+food:
+  drink: beer
+  eat: "Peanut Butter and Jelly sandwich"
+
+debugMode: true
